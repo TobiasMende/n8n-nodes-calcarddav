@@ -5,32 +5,51 @@ import {
 	INodeTypeDescription,
 	NodeOperationError,
 } from 'n8n-workflow';
+import {addressBook} from "./actions";
+import {loadOptions} from "./methods";
 
-export class ExampleNode implements INodeType {
+export class CardDavNode implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'Example Node',
-		name: 'exampleNode',
-		group: ['transform'],
+		displayName: 'CardDAV Node',
+		name: 'cardDavNode',
+		group: ['output'],
 		version: 1,
-		description: 'Basic Example Node',
+		subtitle: '={{ $parameter["operation"] + ": " + $parameter["resource"] }}',
+		description: 'Use a CardDAV Server',
 		defaults: {
-			name: 'Example Node',
+			name: 'CardDAV Node',
 		},
+		credentials: [
+			{
+				name: 'genericDavCredentialsApi',
+				required: false,
+			},
+		],
 		inputs: ['main'],
 		outputs: ['main'],
 		properties: [
-			// Node properties which the user gets displayed and
-			// can change on the node.
 			{
-				displayName: 'My String',
-				name: 'myString',
-				type: 'string',
-				default: '',
-				placeholder: 'Placeholder value',
-				description: 'The description text',
+				displayName: 'Resource',
+				name: 'resource',
+				type: 'options',
+				noDataExpression: true,
+				options: [
+					{
+						name: 'Address Book',
+						value: 'addressBook'
+					},
+					{
+						name: 'Contact',
+						value: 'contact'
+					}
+				],
+				default: 'addressBook'
 			},
+			...addressBook.descriptions,
 		],
 	};
+
+	methods = {loadOptions}
 
 	// The function below is responsible for actually doing whatever this node
 	// is supposed to do. In this case, we're just appending the `myString` property
@@ -55,7 +74,7 @@ export class ExampleNode implements INodeType {
 				// This node should never fail but we want to showcase how
 				// to handle errors.
 				if (this.continueOnFail()) {
-					items.push({ json: this.getInputData(itemIndex)[0].json, error, pairedItem: itemIndex });
+					items.push({json: this.getInputData(itemIndex)[0].json, error, pairedItem: itemIndex});
 				} else {
 					// Adding `itemIndex` allows other workflows to handle this error
 					if (error.context) {
