@@ -15,8 +15,10 @@ export async function fetchContacts(this: IExecuteFunctions, index: number): Pro
 		depth: '1'
 	};
 	const responses: DAVResponse[] = await client.addressBookQuery(request)
-	const simplify = this.getNodeParameter('simplify', index) as boolean
-	if (simplify) {
+	const options = this.getNodeParameter('options', index) as {
+		simplify: boolean
+	}
+	if (options.simplify) {
 		return this.helpers.returnJsonArray(responses.map(parseCard))
 	} else {
 		return Promise.all(responses.map(r => toBinaryItem(this, r)))
