@@ -1,19 +1,19 @@
 {
-  "name": "n8n-nodes-<...>",
+  "name": "n8n-nodes-calcarddav",
   "version": "0.1.0",
-  "description": "",
+  "description": "Use CalDAV and CardDAV APIs",
   "keywords": [
     "n8n-community-node-package"
   ],
   "license": "MIT",
-  "homepage": "",
+  "homepage": "https://github.com/TobiasMende/n8n-nodes-calcarddav",
   "author": {
-    "name": "",
-    "email": ""
+    "name": "Tobias Mende",
+    "email": "tobi-n8n@mende.io"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/<...>/n8n-nodes-<...>.git"
+    "url": "git@github.com:TobiasMende/n8n-nodes-calcarddav.git"
   },
   "main": "index.js",
   "scripts": {
