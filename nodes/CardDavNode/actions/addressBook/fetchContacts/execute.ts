@@ -14,37 +14,53 @@ export async function fetchContacts(this: IExecuteFunctions, index: number): Pro
 		},
 		depth: '1'
 	};
-	const responses = await client.addressBookQuery(request)
-	return this.helpers.returnJsonArray(responses.map(parseCard))
+	const responses: DAVResponse[] = await client.addressBookQuery(request)
+	const simplify = this.getNodeParameter('simplify', index) as boolean
+	if (simplify) {
+		return this.helpers.returnJsonArray(responses.map(parseCard))
+	} else {
+		return Promise.all(responses.map(r => toBinaryItem(this, r)))
+	}
 }
 
-function parseProperty(name:string, card: vCard) {
-	const property = card.get(name)
-	if (!property) {
-		return []
-	}
-	if (property instanceof Array) {
-		return property.map(m => m.valueOf())
-	}
-	return [property.valueOf()]
-}
-
-function parseSimpleProperty(name: string, card: vCard) {
-	return card.get(name)?.valueOf()
-}
-
-function parseCard(rawCard: DAVResponse) {
-	if (!rawCard.props) {
-		return {}
-	}
-	const card = new vCard().parse(rawCard.props.addressData)
-	console.log(Object.keys(card.data))
+async function toBinaryItem(fun: IExecuteFunctions, response: DAVResponse): Promise<INodeExecutionData> {
+	const card = parseCard(response)
 	return {
-		uid: parseSimpleProperty('uid', card),
-		fullName: parseSimpleProperty('fn', card),
-		emails: parseProperty('email', card),
-		telephoneNumbers: parseProperty('tel', card),
-		addresses: parseProperty('adr', card),
-		birthDay: parseSimpleProperty('bday', card),
+		json: {
+			...card,
+			href: response.href as string,
+			vcard: response.props?.addressData
+		},
 	}
 }
+
+	function parseProperty(name: string, card: vCard) {
+		const property = card.get(name)
+		if (!property) {
+			return []
+		}
+		if (property instanceof Array) {
+			return property.map(m => m.valueOf())
+		}
+		return [property.valueOf()]
+	}
+
+	function parseSimpleProperty(name: string, card: vCard) {
+		return card.get(name)?.valueOf()
+	}
+
+	function parseCard(rawCard: DAVResponse) {
+		if (!rawCard.props) {
+			return {}
+		}
+		const card = new vCard().parse(rawCard.props.addressData)
+		console.log(Object.keys(card.data))
+		return {
+			uid: parseSimpleProperty('uid', card),
+			fullName: parseSimpleProperty('fn', card),
+			emails: parseProperty('email', card),
+			telephoneNumbers: parseProperty('tel', card),
+			addresses: parseProperty('adr', card),
+			birthDay: parseSimpleProperty('bday', card),
+		}
+	}
