@@ -1,12 +1,13 @@
 import {
+	IDataObject,
 	IExecuteFunctions,
 	INodeExecutionData,
 	INodeType,
 	INodeTypeDescription,
-	NodeOperationError,
 } from 'n8n-workflow';
 import {addressBook} from "./actions";
 import {loadOptions} from "./methods";
+import {CardDav} from "./actions/Interface";
 
 export class CardDavNode implements INodeType {
 	description: INodeTypeDescription = {
@@ -57,39 +58,37 @@ export class CardDavNode implements INodeType {
 	// You can make async calls and use `await`.
 	async execute(this: IExecuteFunctions): Promise<INodeExecutionData[][]> {
 		const items = this.getInputData();
+		const operationResult: INodeExecutionData[] = []
 
-		let item: INodeExecutionData;
-		let myString: string;
-
-		// Iterates over all input items and add the key "myString" with the
-		// value the parameter "myString" resolves to.
-		// (This could be a different value for each item in case it contains an expression)
-		for (let itemIndex = 0; itemIndex < items.length; itemIndex++) {
+		for (let index = 0; index < items.length; index++) {
+			const resource = this.getNodeParameter<CardDav>('resource', index)
+			const operation = this.getNodeParameter('operation', index)
+			const carddav = {
+				resource,
+				operation
+			} as CardDav
+			let responseData: IDataObject | IDataObject[] = []
 			try {
-				myString = this.getNodeParameter('myString', itemIndex, '') as string;
-				item = items[itemIndex];
+				if (resource === 'addressBook') {
+					// @ts-ignore
+					responseData = await addressBook[carddav.operation].execute.call(this, index)
+				}
 
-				item.json['myString'] = myString;
-			} catch (error) {
-				// This node should never fail but we want to showcase how
-				// to handle errors.
+				const executionData = this.helpers.constructExecutionMetaData(
+					this.helpers.returnJsonArray(responseData),
+					{itemData: {item: index}},
+				);
+				operationResult.push(...executionData);
+			} catch (err) {
 				if (this.continueOnFail()) {
-					items.push({json: this.getInputData(itemIndex)[0].json, error, pairedItem: itemIndex});
+					operationResult.push({json: this.getInputData(index)[0].json, error: err})
 				} else {
-					// Adding `itemIndex` allows other workflows to handle this error
-					if (error.context) {
-						// If the error thrown already contains the context property,
-						// only append the itemIndex
-						error.context.itemIndex = itemIndex;
-						throw error;
-					}
-					throw new NodeOperationError(this.getNode(), error, {
-						itemIndex,
-					});
+					if (err.context) err.context.itemIndex = index;
+					throw err;
 				}
 			}
 		}
 
-		return this.prepareOutputData(items);
+		return [operationResult]
 	}
 }

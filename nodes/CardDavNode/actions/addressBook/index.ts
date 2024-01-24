@@ -1,6 +1,7 @@
 import {INodeProperties} from "n8n-workflow";
 import * as fetchContacts from './fetchContacts'
 
+export {fetchContacts}
 export const descriptions: INodeProperties[] = [
 	{
 		displayName: 'Operation',
