@@ -3,8 +3,8 @@
 
 This is an n8n community node. It lets you use CalDAV and CardDAV APIs (like NextCloud) in your n8n workflows.
 
-CalDAV is an open protocol to interact with calendars (creating events, reading events, updating events).
-CardDAV is an open protocol to interact with address books (creating contacts, reading address books, updating contacts)
+[CalDAV](https://datatracker.ietf.org/doc/html/rfc4791) is an open protocol to interact with calendars (creating events, reading events, updating events).
+[CardDAV](https://datatracker.ietf.org/doc/rfc6352/) is an open protocol to interact with address books (creating contacts, reading address books, updating contacts)
 
 ## The Goal
 
