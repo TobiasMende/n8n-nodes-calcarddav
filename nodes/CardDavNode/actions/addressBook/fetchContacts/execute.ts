@@ -1,7 +1,7 @@
 import {IExecuteFunctions, INodeExecutionData} from "n8n-workflow";
 import {createClient} from "../../../../../transport/davClient";
 import {DAVNamespaceShort, DAVResponse} from "tsdav";
-import vCard from "vcf";
+import {parseCard} from "../../../../../transport/davResponseParser";
 
 export async function fetchContacts(this: IExecuteFunctions, index: number): Promise<INodeExecutionData[]> {
 	const client = await createClient(this)
@@ -19,14 +19,14 @@ export async function fetchContacts(this: IExecuteFunctions, index: number): Pro
 		simplify: boolean
 	}
 	if (options.simplify) {
-		return this.helpers.returnJsonArray(responses.map(parseCard))
+		return this.helpers.returnJsonArray(responses.map(r => parseCard(r) || {}))
 	} else {
-		return Promise.all(responses.map(r => toBinaryItem(this, r)))
+		return Promise.all(responses.map(toItem))
 	}
 }
 
-async function toBinaryItem(fun: IExecuteFunctions, response: DAVResponse): Promise<INodeExecutionData> {
-	const card = parseCard(response)
+async function toItem(response: DAVResponse): Promise<INodeExecutionData> {
+	const card = parseCard(response) || {}
 	return {
 		json: {
 			...card,
@@ -35,34 +35,3 @@ async function toBinaryItem(fun: IExecuteFunctions, response: DAVResponse): Prom
 		},
 	}
 }
-
-	function parseProperty(name: string, card: vCard) {
-		const property = card.get(name)
-		if (!property) {
-			return []
-		}
-		if (property instanceof Array) {
-			return property.map(m => m.valueOf())
-		}
-		return [property.valueOf()]
-	}
-
-	function parseSimpleProperty(name: string, card: vCard) {
-		return card.get(name)?.valueOf()
-	}
-
-	function parseCard(rawCard: DAVResponse) {
-		if (!rawCard.props) {
-			return {}
-		}
-		const card = new vCard().parse(rawCard.props.addressData)
-		console.log(Object.keys(card.data))
-		return {
-			uid: parseSimpleProperty('uid', card),
-			fullName: parseSimpleProperty('fn', card),
-			emails: parseProperty('email', card),
-			telephoneNumbers: parseProperty('tel', card),
-			addresses: parseProperty('adr', card),
-			birthDay: parseSimpleProperty('bday', card),
-		}
-	}

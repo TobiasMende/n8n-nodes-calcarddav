@@ -1,6 +1,6 @@
-import {AddressBookProperties} from "../../Interface";
+import {ContactProperties} from "../../Interface";
 
-export const description: AddressBookProperties = [
+export const description: ContactProperties = [
 	{
 		displayName: 'Select Address Book or Set URL Name or ID',
 		name: 'addressBook',
@@ -13,33 +13,24 @@ export const description: AddressBookProperties = [
 		required: true,
 		displayOptions: {
 			show: {
-				resource: ['addressBook'],
-				operation: ['fetchContacts']
+				resource: ['contact'],
+				operation: ['get']
 			}
 		},
 		description: 'Address book to work with. Choose from the list, or specify an URL using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>.',
 	},
 	{
-		displayName: 'Options',
-		name: 'options',
-		type: 'collection',
-		placeholder: 'Add Option',
+		displayName: 'File Name',
+		name: 'contactFileName',
+		type: 'string',
+		required: true,
+		default: '',
 		displayOptions: {
 			show: {
-				resource: ['addressBook'],
-				operation: ['fetchContacts']
+				resource: ['contact'],
+				operation: ['get']
 			}
 		},
-		default: {},
-		options: [
-			{
-				displayName: 'Simplified Response',
-				name: 'simplify',
-				type: 'boolean',
-				default: false,
-				description: 'Whether to return major information instead of vcf binaries'
-			}
-		]
+		description: 'The ID of the contact to retrieve'
 	}
-
 ]

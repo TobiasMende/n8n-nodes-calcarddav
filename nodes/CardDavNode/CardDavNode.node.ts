@@ -3,9 +3,9 @@ import {
 	IExecuteFunctions,
 	INodeExecutionData,
 	INodeType,
-	INodeTypeDescription,
+	INodeTypeDescription, NodeOperationError,
 } from 'n8n-workflow';
-import {addressBook} from "./actions";
+import {addressBook, contact} from "./actions";
 import {loadOptions} from "./methods";
 import {CardDav} from "./actions/Interface";
 
@@ -47,6 +47,7 @@ export class CardDavNode implements INodeType {
 				default: 'addressBook'
 			},
 			...addressBook.descriptions,
+			...contact.descriptions
 		],
 	};
 
@@ -72,6 +73,11 @@ export class CardDavNode implements INodeType {
 				if (resource === 'addressBook') {
 					// @ts-ignore
 					responseData = await addressBook[carddav.operation].execute.call(this, index)
+				} else if (resource === 'contact') {
+					// @ts-ignore
+					responseData = await contact[carddav.operation].execute.call(this, index)
+				} else {
+					throw new NodeOperationError(this.getNode(), `unknown resource: ${resource}`)
 				}
 
 				const executionData = this.helpers.constructExecutionMetaData(

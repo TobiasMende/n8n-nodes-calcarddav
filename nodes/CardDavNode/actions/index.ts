@@ -1,3 +1,4 @@
 import * as addressBook from './addressBook'
+import * as contact from './contact'
 
-export {addressBook}
+export {addressBook, contact}
