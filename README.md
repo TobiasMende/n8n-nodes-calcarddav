@@ -1,5 +1,5 @@
 # n8n-nodes-calcarddav
-⚠️ **WIP: Just starting this based on the starter project.**
+⚠️ **WIP: Just started this based on the starter project to play around. It is not functional yet. Feel free to copy, continue, or provide PRs :)**
 
 This is an n8n community node. It lets you use CalDAV and CardDAV APIs (like NextCloud) in your n8n workflows.
 
