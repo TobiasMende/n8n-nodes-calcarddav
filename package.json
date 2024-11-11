@@ -33,7 +33,8 @@
       "dist/credentials/GenericDavCredentialsApi.credentials.js"
     ],
     "nodes": [
-      "dist/nodes/CardDavNode/CardDaveNode.node.js"
+      "dist/nodes/CardDavNode/CardDavNode.node.js",
+      "dist/nodes/CardDavNode/CalDavNode.node.js"
     ]
   },
   "devDependencies": {
