@@ -1,7 +1,7 @@
 import {AllEntities, Entity, PropertiesOf} from "n8n-workflow";
 
 type CalDavMap = {
-	calendarObject: 'fetchEvents'
+	calendarObject: 'fetchEvents' | 'createEvent'
 }
 
 export type CalDav = AllEntities<CalDavMap>
