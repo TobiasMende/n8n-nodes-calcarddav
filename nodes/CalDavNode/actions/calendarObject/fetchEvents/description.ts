@@ -25,6 +25,11 @@ export const description: CalendarObjectProperties = [
 		type: 'dateTime',
 		default: '',
 		required: true,
+		displayOptions: {
+			show: {
+				operation: ['fetchEvents'],
+			},
+		},
 		description: 'Start date of interval to fetch object from calendar',
 	},
 	{
@@ -33,6 +38,11 @@ export const description: CalendarObjectProperties = [
 		type: 'dateTime',
 		default: '',
 		required: true,
+		displayOptions: {
+			show: {
+				operation: ['fetchEvents'],
+			},
+		},
 		description: 'End date of interval to fetch object from calendar',
 	}
 ]
