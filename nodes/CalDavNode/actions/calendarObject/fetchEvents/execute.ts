@@ -36,7 +36,11 @@ export async function fetchObjects(this: IExecuteFunctions, index: number): Prom
 		const data = Object.values<CalendarComponent>(ical.parseICS(r.data));
 		const events = data.filter((item) => item.type === 'VEVENT') as VEvent[];
 
-		return events[0];
+		return {
+			url: r.url,
+			etag: r.etag,
+			event: events[0]
+		};
 	});
 
 	return this.helpers.returnJsonArray({
