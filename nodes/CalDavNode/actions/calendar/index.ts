@@ -11,7 +11,7 @@ export const descriptions: INodeProperties[] = [
 		noDataExpression: true,
 		displayOptions: {
 			show: {
-				resource: ['calendarObject']
+				resource: ['calendar']
 			}
 		},
 		options: [

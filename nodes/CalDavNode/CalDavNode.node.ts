@@ -5,7 +5,7 @@ import {
 	INodeType,
 	INodeTypeDescription, NodeOperationError,
 } from 'n8n-workflow';
-import {calendarObject, event} from "./actions";
+import {calendar, event} from "./actions";
 import {loadOptions} from "./methods";
 import {CalDav} from "./actions/Interface";
 
@@ -37,16 +37,16 @@ export class CalDavNode implements INodeType {
 				options: [
 					{
 						name: 'Calendar',
-						value: 'calendarObject'
+						value: 'calendar'
 					},
 					{
 						name: 'Event',
 						value: 'event'
 					},
 				],
-				default: 'calendarObject'
+				default: 'calendar'
 			},
-			...calendarObject.descriptions,
+			...calendar.descriptions,
 			...event.descriptions
 		],
 	};
@@ -70,9 +70,9 @@ export class CalDavNode implements INodeType {
 			} as CalDav
 			let responseData: IDataObject | IDataObject[] = []
 			try {
-				if (resource === 'calendarObject') {
+				if (resource === 'calendar') {
 					// @ts-ignore
-					responseData = await calendarObject[caldav.operation].execute.call(this, index)
+					responseData = await calendar[caldav.operation].execute.call(this, index)
 				} else if (resource === 'event') {
 					// @ts-ignore
 					responseData = await event[caldav.operation].execute.call(this, index)

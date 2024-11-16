@@ -1,6 +1,6 @@
-import {CalendarObjectProperties} from "../../Interface";
+import {CalendarProperties} from "../../Interface";
 
-export const description: CalendarObjectProperties = [
+export const description: CalendarProperties = [
 	{
 		displayName: 'Select Calendar or Set URL Name or ID',
 		name: 'calendar',
@@ -13,59 +13,38 @@ export const description: CalendarObjectProperties = [
 		required: true,
 		displayOptions: {
 			show: {
-				resource: ['calendarObject'],
-				operation: ['createEvent']
+				resource: ['calendar'],
+				operation: ['fetchEvents']
 			}
 		},
 		description: 'Calendar to work with. Choose from the list, or specify an URL using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>. Choose from the list, or specify an ID using an <a href="https://docs.n8n.io/code-examples/expressions/">expression</a>.',
 	},
 	{
-		displayName: 'Title',
-		name: 'event_title',
-		type: 'string',
-		default: '',
-		required: true,
-		displayOptions: {
-			show: {
-				operation: ['createEvent'],
-			},
-		},
-	},
-	{
 		displayName: 'Start Date',
-		name: 'event_start_date',
+		name: 'start_date',
 		type: 'dateTime',
 		default: '',
 		required: true,
 		displayOptions: {
 			show: {
-				operation: ['createEvent'],
+				operation: ['fetchEvents'],
 			},
 		},
+		description: 'Start date of interval to fetch object from calendar',
 		hint: 'Date should be in UTC',
 	},
 	{
 		displayName: 'End Date',
-		name: 'event_end_date',
+		name: 'end_date',
 		type: 'dateTime',
 		default: '',
 		required: true,
 		displayOptions: {
 			show: {
-				operation: ['createEvent'],
+				operation: ['fetchEvents'],
 			},
 		},
+		description: 'End date of interval to fetch object from calendar',
 		hint: 'Date should be in UTC',
-	},
-	{
-		displayName: 'Description',
-		name: 'event_description',
-		type: 'string',
-		default: '',
-		displayOptions: {
-			show: {
-				operation: ['createEvent'],
-			},
-		},
-	},
+	}
 ]

@@ -1,4 +1,4 @@
-import * as calendarObject from './calendarObject'
+import * as calendar from './calendar'
 import * as event from './event'
 
-export {calendarObject, event}
+export {calendar, event}
