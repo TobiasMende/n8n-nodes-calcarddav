@@ -1,7 +1,7 @@
 import {INodeProperties} from "n8n-workflow";
-import * as fetchObjects from './fetchObjects'
+import * as fetchEvents from './fetchEvents'
 
-export {fetchObjects}
+export {fetchEvents}
 export const descriptions: INodeProperties[] = [
 	{
 		displayName: 'Operation',
@@ -15,13 +15,13 @@ export const descriptions: INodeProperties[] = [
 		},
 		options: [
 			{
-				name: 'Fetch Objects',
-				value: 'fetchObjects',
-				description: 'Fetch objects from calendar',
-				action: 'Fetch objects from calendar'
+				name: 'Fetch Events',
+				value: 'fetchEvents',
+				description: 'Fetch events from calendar',
+				action: 'Fetch events from calendar'
 			}
 		],
-		default: 'fetchObjects'
+		default: 'fetchEvents'
 	},
-	...fetchObjects.description
+	...fetchEvents.description
 ]
