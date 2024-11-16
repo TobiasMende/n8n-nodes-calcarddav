@@ -45,12 +45,14 @@
     "eslint-plugin-n8n-nodes-base": "^1.11.0",
     "gulp": "^4.0.2",
     "n8n-core": "*",
-    "n8n-workflow": "*",
+    "n8n-workflow": "^1.48.0",
     "prettier": "^2.7.1",
     "typescript": "~4.8.4"
   },
   "dependencies": {
-    "tsdav": "^2.0.7",
+    "ical": "^0.8.0",
+    "ics": "^3.8.1",
+    "tsdav": "^2.1.2",
     "vcf": "^2.1.2"
   }
 }
