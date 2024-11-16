@@ -31,6 +31,7 @@ export const description: CalendarObjectProperties = [
 			},
 		},
 		description: 'Start date of interval to fetch object from calendar',
+		hint: 'Date should be in UTC',
 	},
 	{
 		displayName: 'End Date',
@@ -44,5 +45,6 @@ export const description: CalendarObjectProperties = [
 			},
 		},
 		description: 'End date of interval to fetch object from calendar',
+		hint: 'Date should be in UTC',
 	}
 ]
