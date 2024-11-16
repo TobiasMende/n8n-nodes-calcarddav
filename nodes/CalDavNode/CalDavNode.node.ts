@@ -36,7 +36,7 @@ export class CalDavNode implements INodeType {
 				noDataExpression: true,
 				options: [
 					{
-						name: 'Calendar Object',
+						name: 'Calendar',
 						value: 'calendarObject'
 					},
 					// {
