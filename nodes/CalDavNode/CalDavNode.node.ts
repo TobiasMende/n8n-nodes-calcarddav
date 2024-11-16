@@ -5,7 +5,7 @@ import {
 	INodeType,
 	INodeTypeDescription, NodeOperationError,
 } from 'n8n-workflow';
-import {calendarObject} from "./actions";
+import {calendarObject, event} from "./actions";
 import {loadOptions} from "./methods";
 import {CalDav} from "./actions/Interface";
 
@@ -39,15 +39,15 @@ export class CalDavNode implements INodeType {
 						name: 'Calendar',
 						value: 'calendarObject'
 					},
-					// {
-					// 	name: 'Contact',
-					// 	value: 'contact'
-					// }
+					{
+						name: 'Event',
+						value: 'event'
+					},
 				],
 				default: 'calendarObject'
 			},
 			...calendarObject.descriptions,
-			// ...contact.descriptions
+			...event.descriptions
 		],
 	};
 
@@ -73,9 +73,9 @@ export class CalDavNode implements INodeType {
 				if (resource === 'calendarObject') {
 					// @ts-ignore
 					responseData = await calendarObject[caldav.operation].execute.call(this, index)
-				// } else if (resource === 'contact') {
-				// 	// @ts-ignore
-				// 	responseData = await contact[carddav.operation].execute.call(this, index)
+				} else if (resource === 'event') {
+					// @ts-ignore
+					responseData = await event[caldav.operation].execute.call(this, index)
 				} else {
 					throw new NodeOperationError(this.getNode(), `unknown resource: ${resource}`)
 				}
