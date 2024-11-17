@@ -5,21 +5,21 @@ import {
 	INodeType,
 	INodeTypeDescription, NodeOperationError,
 } from 'n8n-workflow';
-import {addressBook, contact} from "./actions";
+import {calendar, event} from "./actions";
 import {loadOptions} from "./methods";
-import {CardDav} from "./actions/Interface";
+import {CalDav} from "./actions/Interface";
 
-export class CardDavNode implements INodeType {
+export class CalDavNode implements INodeType {
 	description: INodeTypeDescription = {
-		displayName: 'CardDAV Node',
-		name: 'cardDavNode',
-		icon: 'file:CardDavNode.svg',
+		displayName: 'CalDAV Node',
+		name: 'calDavNode',
+		icon: 'file:CalDavNode.svg',
 		group: ['output'],
 		version: 1,
 		subtitle: '={{ $parameter["operation"] + ": " + $parameter["resource"] }}',
-		description: 'Use a CardDAV Server',
+		description: 'Use a CalDAV Server',
 		defaults: {
-			name: 'CardDAV Node',
+			name: 'CalDAV Node',
 		},
 		credentials: [
 			{
@@ -37,18 +37,18 @@ export class CardDavNode implements INodeType {
 				noDataExpression: true,
 				options: [
 					{
-						name: 'Address Book',
-						value: 'addressBook'
+						name: 'Calendar',
+						value: 'calendar'
 					},
 					{
-						name: 'Contact',
-						value: 'contact'
-					}
+						name: 'Event',
+						value: 'event'
+					},
 				],
-				default: 'addressBook'
+				default: 'calendar'
 			},
-			...addressBook.descriptions,
-			...contact.descriptions
+			...calendar.descriptions,
+			...event.descriptions
 		],
 	};
 
@@ -63,20 +63,20 @@ export class CardDavNode implements INodeType {
 		const operationResult: INodeExecutionData[] = []
 
 		for (let index = 0; index < items.length; index++) {
-			const resource = this.getNodeParameter<CardDav>('resource', index)
+			const resource = this.getNodeParameter<CalDav>('resource', index)
 			const operation = this.getNodeParameter('operation', index)
-			const carddav = {
+			const caldav = {
 				resource,
 				operation
-			} as CardDav
+			} as CalDav
 			let responseData: IDataObject | IDataObject[] = []
 			try {
-				if (resource === 'addressBook') {
+				if (resource === 'calendar') {
 					// @ts-ignore
-					responseData = await addressBook[carddav.operation].execute.call(this, index)
-				} else if (resource === 'contact') {
+					responseData = await calendar[caldav.operation].execute.call(this, index)
+				} else if (resource === 'event') {
 					// @ts-ignore
-					responseData = await contact[carddav.operation].execute.call(this, index)
+					responseData = await event[caldav.operation].execute.call(this, index)
 				} else {
 					throw new NodeOperationError(this.getNode(), `unknown resource: ${resource}`)
 				}
