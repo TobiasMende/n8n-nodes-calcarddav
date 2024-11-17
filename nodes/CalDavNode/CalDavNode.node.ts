@@ -13,7 +13,7 @@ export class CalDavNode implements INodeType {
 	description: INodeTypeDescription = {
 		displayName: 'CalDAV Node',
 		name: 'calDavNode',
-		icon: 'file:calDavNode.svg',
+		icon: 'file:CalDavNode.svg',
 		group: ['output'],
 		version: 1,
 		subtitle: '={{ $parameter["operation"] + ": " + $parameter["resource"] }}',
