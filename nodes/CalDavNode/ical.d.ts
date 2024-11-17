@@ -34,7 +34,6 @@ export interface VEvent extends BaseComponent {
 	created: DateWithTimeZone;
 	lastmodified: DateWithTimeZone;
 	attendee?: Attendee[] | Attendee;
-	/* eslint-disable-next-line @typescript-eslint/ban-types */
 	recurrences?: Record<string, Omit<VEvent, 'recurrences'>>;
 	status?: VEventStatus;
 
