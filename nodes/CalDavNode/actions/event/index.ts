@@ -17,8 +17,8 @@ export const descriptions: INodeProperties[] = [
 			{
 				name: 'Delete Event',
 				value: 'deleteEvent',
-				description: 'Delete event in remote calendar from ics file',
-				action: 'Delete event in calendar from ics file'
+				description: 'Delete event in remote calendar',
+				action: 'Delete event in remote calendar'
 			},
 		],
 		default: 'deleteEvent'

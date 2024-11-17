@@ -24,8 +24,8 @@ export const descriptions: INodeProperties[] = [
 			{
 				name: 'Create Event',
 				value: 'createEvent',
-				description: 'Create event in remote calendar from ics file',
-				action: 'Create event in calendar from ics file'
+				description: 'Create event in calendar',
+				action: 'Create event in calendar'
 			},
 		],
 		default: 'fetchEvents'
