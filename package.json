@@ -34,7 +34,7 @@
     ],
     "nodes": [
       "dist/nodes/CardDavNode/CardDavNode.node.js",
-      "dist/nodes/CardDavNode/CalDavNode.node.js"
+      "dist/nodes/CalDavNode/CalDavNode.node.js"
     ]
   },
   "devDependencies": {
