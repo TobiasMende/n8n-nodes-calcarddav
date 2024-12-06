@@ -32,6 +32,28 @@ export const description: CalendarProperties = [
 		},
 	},
 	{
+		displayName: 'All Day Event',
+		name: 'event_is_all_day',
+		type: 'options',
+		options: [
+			{
+				name: 'No',
+				value: 'no',
+			},
+			{
+				name: 'Yes',
+				value: 'yes',
+			},
+		],
+		default: 'no',
+		required: true,
+		displayOptions: {
+			show: {
+				operation: ['createEvent'],
+			},
+		},
+	},
+	{
 		displayName: 'Start Date',
 		name: 'event_start_date',
 		type: 'dateTime',
@@ -43,6 +65,7 @@ export const description: CalendarProperties = [
 			},
 		},
 		hint: 'Date should be in UTC',
+		description: 'Time is ignored for all-day events'
 	},
 	{
 		displayName: 'End Date',
@@ -56,6 +79,7 @@ export const description: CalendarProperties = [
 			},
 		},
 		hint: 'Date should be in UTC',
+		description: 'Date when event ends. Time is ignored for all-day events. For all-day events, this should be the last day (same as start date for 1 day events).',
 	},
 	{
 		displayName: 'Description',
